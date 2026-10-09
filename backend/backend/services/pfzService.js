@@ -1,0 +1,769 @@
+const https = require("https");
+const { fetchSST } = require("./sstService");
+const { fetchChlorophyll } = require("./chlorophyllService");
+const INCOIS_PFZ_URL =
+  "https://incois.gov.in/geoserver/PFZ_Automation/ows" +
+  "?service=WFS" +
+  "&version=1.1.0" +
+  "&request=GetFeature" +
+  "&typeName=PFZ_Automation:pfzlines" +
+  "&outputFormat=application/json";
+
+// Existing prototype data.
+// This remains as a fallback if INCOIS is temporarily unavailable.
+const PFZ_DATA = [
+  {
+    id: "PFZ-BOB-001",
+    name: "Kakinada Deep Sea Eddy",
+    latitude: 16.82,
+    longitude: 82.62,
+    pfz_score: 96,
+    category: "VERY_HIGH",
+    sst: 26.8,
+    chlorophyll: 2.85,
+    depth: 45,
+    confidence: 95,
+    advisory: "Prototype PFZ dataset",
+    source: "PROTOTYPE",
+    sourceStatus: "PROTOTYPE",
+  },
+  {
+    id: "PFZ-BOB-002",
+    name: "Kakinada Coastal Front",
+    latitude: 16.95,
+    longitude: 82.48,
+    pfz_score: 88,
+    category: "HIGH",
+    sst: 27.2,
+    chlorophyll: 2.35,
+    depth: 38,
+    confidence: 89,
+    advisory: "Prototype PFZ dataset",
+    source: "PROTOTYPE",
+    sourceStatus: "PROTOTYPE",
+  },
+  {
+    id: "PFZ-BOB-003",
+    name: "Visakhapatnam Offshore Zone",
+    latitude: 17.52,
+    longitude: 83.35,
+    pfz_score: 79,
+    category: "HIGH",
+    sst: 27.6,
+    chlorophyll: 1.95,
+    depth: 52,
+    confidence: 84,
+    advisory: "Prototype PFZ dataset",
+    source: "PROTOTYPE",
+    sourceStatus: "PROTOTYPE",
+  },
+  {
+    id: "PFZ-BOB-004",
+    name: "Machilipatnam Fishing Zone",
+    latitude: 15.95,
+    longitude: 81.35,
+    pfz_score: 67,
+    category: "MODERATE",
+    sst: 28.1,
+    chlorophyll: 1.55,
+    depth: 32,
+    confidence: 76,
+    advisory: "Prototype PFZ dataset",
+    source: "PROTOTYPE",
+    sourceStatus: "PROTOTYPE",
+  },
+  {
+    id: "PFZ-BOB-005",
+    name: "Amalapuram Offshore Zone",
+    latitude: 16.55,
+    longitude: 82.45,
+    pfz_score: 48,
+    category: "LOW",
+    sst: 28.7,
+    chlorophyll: 0.95,
+    depth: 28,
+    confidence: 61,
+    advisory: "Prototype PFZ dataset",
+    source: "PROTOTYPE",
+    sourceStatus: "PROTOTYPE",
+  },
+];
+
+function fetchINCOISPFZ() {
+  return new Promise((resolve, reject) => {
+    const request = https.get(
+      INCOIS_PFZ_URL,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "Marine-AI-PFZ-Integration/1.0",
+        },
+        timeout: 15000,
+      },
+      (res) => {
+        let body = "";
+
+        res.on("data", (chunk) => {
+          body += chunk;
+        });
+
+        res.on("end", () => {
+          if (res.statusCode !== 200) {
+            reject(new Error(`INCOIS returned HTTP ${res.statusCode}`));
+            return;
+          }
+
+          try {
+            const data = JSON.parse(body);
+            resolve(data);
+          } catch (error) {
+            reject(new Error("Invalid JSON received from INCOIS"));
+          }
+        });
+      },
+    );
+
+    request.on("timeout", () => {
+      request.destroy(new Error("INCOIS request timed out"));
+    });
+
+    request.on("error", reject);
+  });
+}
+
+function getAllCoordinates(feature) {
+  const coordinates = [];
+
+  if (!feature?.geometry?.coordinates) {
+    return coordinates;
+  }
+
+  for (const line of feature.geometry.coordinates) {
+    if (!Array.isArray(line)) {
+      continue;
+    }
+
+    for (const point of line) {
+      if (
+        Array.isArray(point) &&
+        point.length >= 2 &&
+        Number.isFinite(Number(point[0])) &&
+        Number.isFinite(Number(point[1]))
+      ) {
+        coordinates.push([Number(point[0]), Number(point[1])]);
+      }
+    }
+  }
+
+  return coordinates;
+}
+
+function getRepresentativePoint(feature) {
+  const coordinates = getAllCoordinates(feature);
+
+  if (coordinates.length === 0) {
+    return null;
+  }
+
+  const midpointIndex = Math.floor(coordinates.length / 2);
+
+  const [longitude, latitude] = coordinates[midpointIndex];
+
+  return {
+    latitude,
+    longitude,
+  };
+}
+
+function normalizePFZData(features) {
+  return features
+    .map((feature) => {
+      const point = getRepresentativePoint(feature);
+
+      if (!point) {
+        return null;
+      }
+
+      const properties = feature.properties || {};
+
+      return {
+        id: `INCOIS-${properties.UID || feature.id}`,
+
+        name: `INCOIS PFZ ${properties.Sno || feature.id}`,
+
+        latitude: Number(point.latitude.toFixed(6)),
+
+        longitude: Number(point.longitude.toFixed(6)),
+
+        // The pfzlines WFS layer does not provide
+        // these scientific values.
+        // Do NOT invent them.
+        pfz_score: null,
+        category: "INCOIS_PFZ",
+        sst: null,
+        chlorophyll: null,
+        depth: null,
+        confidence: null,
+
+        advisory: "Potential Fishing Zone identified by INCOIS.",
+
+        source: "INCOIS",
+        sourceStatus: "LIVE",
+
+        geometryType: feature.geometry?.type || null,
+        geometry: feature.geometry || null,
+        coordinates: feature.geometry?.coordinates || [],
+
+        uid: properties.UID || null,
+        year: properties.Year || null,
+        julianDay: properties.Julian_day || null,
+        serialNumber: properties.Sno || null,
+        sector: properties.SECTORBOUN || null,
+        length: properties.Length || null,
+      };
+    })
+    .filter(Boolean);
+}
+
+async function getLivePFZData() {
+  const data = await fetchINCOISPFZ();
+
+  if (!data || !Array.isArray(data.features)) {
+    throw new Error(
+      "INCOIS response does not contain a valid FeatureCollection",
+    );
+  }
+
+  const zones = normalizePFZData(data.features);
+
+  if (zones.length === 0) {
+    throw new Error("INCOIS returned no valid PFZ zones");
+  }
+
+  return {
+    source: "INCOIS",
+    status: "LIVE",
+    updatedAt: new Date().toISOString(),
+    featureCount: zones.length,
+    zones,
+  };
+}
+
+async function getPFZs(category = "ALL") {
+  try {
+    const liveData = await getLivePFZData();
+
+    if (!category || category.toUpperCase() === "ALL") {
+      return liveData.zones;
+    }
+
+    return liveData.zones.filter(
+      (pfz) => pfz.category === category.toUpperCase(),
+    );
+  } catch (error) {
+    console.warn(
+      "INCOIS PFZ unavailable. Using prototype fallback:",
+      error.message,
+    );
+
+    if (!category || category.toUpperCase() === "ALL") {
+      return PFZ_DATA;
+    }
+
+    return PFZ_DATA.filter((pfz) => pfz.category === category.toUpperCase());
+  }
+}
+
+async function getPFZSourceStatus() {
+  try {
+    const liveData = await getLivePFZData();
+
+    return {
+      source: "INCOIS",
+      status: "LIVE",
+      updatedAt: liveData.updatedAt,
+      featureCount: liveData.featureCount,
+    };
+  } catch (error) {
+    return {
+      source: "INCOIS",
+      status: "FALLBACK",
+      updatedAt: null,
+      featureCount: PFZ_DATA.length,
+      message: error.message,
+    };
+  }
+}
+
+function calculateDistanceKm(latitude1, longitude1, latitude2, longitude2) {
+  const earthRadiusKm = 6371;
+
+  const lat1 = (Number(latitude1) * Math.PI) / 180;
+  const lat2 = (Number(latitude2) * Math.PI) / 180;
+
+  const deltaLat = ((Number(latitude2) - Number(latitude1)) * Math.PI) / 180;
+
+  const deltaLon = ((Number(longitude2) - Number(longitude1)) * Math.PI) / 180;
+
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return earthRadiusKm * c;
+}
+
+async function getNearbyPFZs(latitude, longitude, limit = 5) {
+  const userLatitude = Number(latitude);
+  const userLongitude = Number(longitude);
+
+  if (!Number.isFinite(userLatitude) || !Number.isFinite(userLongitude)) {
+    throw new Error("Valid latitude and longitude are required");
+  }
+
+  const pfzs = await getPFZs("ALL");
+
+  const nearbyPFZs = pfzs
+    .map((pfz) => ({
+      ...pfz,
+      distanceKm: Number(
+        calculateDistanceKm(
+          userLatitude,
+          userLongitude,
+          pfz.latitude,
+          pfz.longitude,
+        ).toFixed(2),
+      ),
+    }))
+    .sort((a, b) => a.distanceKm - b.distanceKm)
+    .slice(0, Number(limit));
+
+  // Enrich nearby PFZs in parallel.
+  // Failure of SST/chlorophyll must NOT block the PFZ response.
+  const pfzsWithLiveData = await Promise.all(
+    nearbyPFZs.map(async (pfz) => {
+      const [sstResult, chlorophyllResult] = await Promise.allSettled([
+        fetchSST(pfz.latitude, pfz.longitude),
+        fetchChlorophyll(pfz.latitude, pfz.longitude),
+      ]);
+
+      let sstData = null;
+      let chlorophyllData = null;
+
+      if (sstResult.status === "fulfilled") {
+        sstData = sstResult.value;
+      } else {
+        console.warn(
+          `SST unavailable for ${pfz.name}:`,
+          sstResult.reason?.message || sstResult.reason,
+        );
+      }
+
+      if (chlorophyllResult.status === "fulfilled") {
+        chlorophyllData = chlorophyllResult.value;
+      } else {
+        console.warn(
+          `Chlorophyll unavailable for ${pfz.name}:`,
+          chlorophyllResult.reason?.message || chlorophyllResult.reason,
+        );
+      }
+
+      return {
+        ...pfz,
+
+        // Live SST
+        sst: sstData?.sst ?? null,
+        sstSource: sstData?.source ?? "NASA JPL MUR SST",
+        sstStatus: sstData?.status ?? "UNAVAILABLE",
+        sstTimestamp: sstData?.timestamp ?? null,
+
+        // Live chlorophyll
+        chlorophyll: chlorophyllData?.chlorophyll ?? null,
+        chlorophyllUnit: chlorophyllData?.unit ?? "mg/m³",
+        chlorophyllSource: chlorophyllData?.source ?? "INCOIS PFZ CHL WCS",
+        chlorophyllStatus: chlorophyllData?.status ?? "UNAVAILABLE",
+        chlorophyllTimestamp: chlorophyllData?.timestamp ?? null,
+        chlorophyllLatitude: chlorophyllData?.latitude ?? null,
+        chlorophyllLongitude: chlorophyllData?.longitude ?? null,
+      };
+    }),
+  );
+
+  return pfzsWithLiveData;
+}
+async function rankPFZs(latitude, longitude, limit = 5, targetPfzId = null) {
+  const userLatitude = Number(latitude);
+  const userLongitude = Number(longitude);
+
+  if (!Number.isFinite(userLatitude) || !Number.isFinite(userLongitude)) {
+    throw new Error("Valid latitude and longitude are required");
+  }
+
+  /*
+   * Get live INCOIS PFZ data.
+   *
+   * We first select a reasonable candidate pool by distance.
+   * This prevents hundreds of external SST/chlorophyll requests.
+   */
+  const pfzs = await getPFZs("ALL");
+
+  const candidateLimit = Math.max(Number(limit) * 2, 5);
+
+  let candidates = pfzs
+    .map((pfz) => ({
+      ...pfz,
+      distanceKm: Number(
+        calculateDistanceKm(
+          userLatitude,
+          userLongitude,
+          pfz.latitude,
+          pfz.longitude,
+        ).toFixed(2),
+      ),
+    }))
+    .sort((a, b) => a.distanceKm - b.distanceKm)
+    .slice(0, candidateLimit);
+
+  if (targetPfzId) {
+    const cleanId = targetPfzId.replace(/[^0-9]/g, '');
+    const target = candidates.find(c => {
+      if (c.id === targetPfzId || c.id.includes(targetPfzId) || c.id.endsWith(targetPfzId)) return true;
+      if (cleanId && (c.id.endsWith(cleanId) || c.id.includes(`-${cleanId}`))) return true;
+      return false;
+    }) || candidates[0];
+
+    if (target) {
+      candidates = [target];
+    }
+  }
+
+  /*
+   * Enrich only the candidate PFZs.
+   *
+   * SST/chlorophyll failures are tolerated because live
+   * INCOIS PFZ geometry itself remains valid.
+   */
+  const enrichedPFZs = await Promise.all(
+    candidates.map(async (pfz) => {
+      const [sstResult, chlorophyllResult] = await Promise.allSettled([
+        fetchSST(pfz.latitude, pfz.longitude),
+        fetchChlorophyll(pfz.latitude, pfz.longitude),
+      ]);
+
+      const sstData = sstResult.status === "fulfilled" ? sstResult.value : null;
+
+      const chlorophyllData =
+        chlorophyllResult.status === "fulfilled"
+          ? chlorophyllResult.value
+          : null;
+
+      return {
+        ...pfz,
+
+        sst: sstData?.sst ?? null,
+        sstSource: sstData?.source ?? "NASA JPL MUR SST",
+        sstStatus: sstData?.status ?? "UNAVAILABLE",
+        sstTimestamp: sstData?.timestamp ?? null,
+
+        chlorophyll: chlorophyllData?.chlorophyll ?? null,
+        chlorophyllUnit: chlorophyllData?.unit ?? "mg/m³",
+        chlorophyllSource: chlorophyllData?.source ?? "INCOIS PFZ CHL WCS",
+        chlorophyllStatus: chlorophyllData?.status ?? "UNAVAILABLE",
+        chlorophyllTimestamp: chlorophyllData?.timestamp ?? null,
+      };
+    }),
+  );
+
+  /*
+   * Calculate normalization values.
+   *
+   * We normalize only using factors that are actually available.
+   * Missing data is NEVER replaced with a fabricated value.
+   */
+  const validChlorophyll = enrichedPFZs
+    .map((pfz) => Number(pfz.chlorophyll))
+    .filter(Number.isFinite);
+
+  const maxChlorophyll =
+    validChlorophyll.length > 0 ? Math.max(...validChlorophyll) : null;
+
+  const minDistance = Math.min(...enrichedPFZs.map((pfz) => pfz.distanceKm));
+
+  const maxDistance = Math.max(...enrichedPFZs.map((pfz) => pfz.distanceKm));
+
+  /*
+   * Calculate AI Suitability Score.
+   *
+   * IMPORTANT:
+   * This is our derived score.
+   * It is NOT an official INCOIS score.
+   *
+   * Base weights:
+   *   Chlorophyll      : 45
+   *   Distance         : 25
+   *   SST              : 20
+   *   Official PFZ     : 10
+   *
+   * If a factor is unavailable, its weight is removed
+   * from the denominator and the remaining available
+   * factors are normalized to 100.
+   */
+  const rankedPFZs = enrichedPFZs.map((pfz) => {
+    let rawScore = 0;
+    let availableWeight = 0;
+    const availableFactors = [];
+    const unavailableFactors = [];
+    let chlPoints = 0;
+    let distPoints = 0;
+    let sstPoints = 0;
+    let officialPoints = 0;
+
+    /*
+     * --------------------------------------------------
+     * 1. Chlorophyll — 45 points
+     * --------------------------------------------------
+     */
+    const chlorophyll = Number(pfz.chlorophyll);
+
+    if (
+      pfz.chlorophyll !== null &&
+      pfz.chlorophyll !== undefined &&
+      Number.isFinite(chlorophyll) &&
+      maxChlorophyll !== null &&
+      maxChlorophyll > 0
+    ) {
+      chlPoints = (chlorophyll / maxChlorophyll) * 45;
+      rawScore += chlPoints;
+
+      availableWeight += 45;
+      availableFactors.push("Chlorophyll");
+    } else {
+      unavailableFactors.push("Chlorophyll");
+    }
+
+    /*
+     * --------------------------------------------------
+     * 2. Distance — 25 points
+     * --------------------------------------------------
+     */
+    const distance = Number(pfz.distanceKm);
+
+    if (Number.isFinite(distance)) {
+      if (maxDistance > minDistance) {
+        distPoints = ((maxDistance - distance) / (maxDistance - minDistance)) * 25;
+      } else {
+        distPoints = 25;
+      }
+
+      rawScore += distPoints;
+      availableWeight += 25;
+      availableFactors.push("Distance");
+    } else {
+      unavailableFactors.push("Distance");
+    }
+
+    /*
+     * --------------------------------------------------
+     * 3. SST — 20 points
+     * --------------------------------------------------
+     */
+    const sst = Number(pfz.sst);
+
+    if (pfz.sst !== null && pfz.sst !== undefined && Number.isFinite(sst)) {
+      if (sst >= 26 && sst <= 30) {
+        sstPoints = 20;
+      } else if ((sst >= 24 && sst < 26) || (sst > 30 && sst <= 32)) {
+        sstPoints = 12;
+      } else {
+        sstPoints = 5;
+      }
+
+      rawScore += sstPoints;
+      availableWeight += 20;
+      availableFactors.push("SST");
+    } else {
+      unavailableFactors.push("SST");
+    }
+
+    /*
+     * --------------------------------------------------
+     * 4. Official INCOIS PFZ score — 10 points
+     * --------------------------------------------------
+     */
+    const officialPFZScore = Number(pfz.pfz_score);
+
+    if (
+      pfz.pfz_score !== null &&
+      pfz.pfz_score !== undefined &&
+      Number.isFinite(officialPFZScore)
+    ) {
+      const normalizedOfficialScore = Math.max(
+        0,
+        Math.min(100, officialPFZScore),
+      );
+
+      officialPoints = (normalizedOfficialScore / 100) * 10;
+      rawScore += officialPoints;
+
+      availableWeight += 10;
+      availableFactors.push("Official PFZ score");
+    } else {
+      unavailableFactors.push("Official PFZ score");
+    }
+
+    const aiSuitabilityScore =
+      availableWeight > 0
+        ? Number(((rawScore / availableWeight) * 100).toFixed(2))
+        : null;
+
+    const dataCompleteness = Number(((availableWeight / 100) * 100).toFixed(0));
+
+    // Per-factor score breakdown
+    const perFactorBreakdown = {
+      chlorophyll: {
+        points: Number(chlPoints.toFixed(2)),
+        maxPoints: 45,
+        value: (pfz.chlorophyll !== null && pfz.chlorophyll !== undefined && Number.isFinite(chlorophyll)) ? `${chlorophyll.toFixed(4)} mg/m³` : null,
+        status: pfz.chlorophyllStatus || "UNAVAILABLE",
+        detail: (pfz.chlorophyll !== null && pfz.chlorophyll !== undefined && Number.isFinite(chlorophyll)) ? `Chlorophyll concentration ${chlorophyll.toFixed(4)} mg/m³` : "Chlorophyll data unavailable",
+      },
+      distance: {
+        points: Number(distPoints.toFixed(2)),
+        maxPoints: 25,
+        value: (pfz.distanceKm !== null && pfz.distanceKm !== undefined && Number.isFinite(distance)) ? `${distance.toFixed(2)} km` : null,
+        status: "LIVE",
+        detail: (pfz.distanceKm !== null && pfz.distanceKm !== undefined && Number.isFinite(distance)) ? `Distance ${distance.toFixed(2)} km from vessel` : "Distance unavailable",
+      },
+      sst: {
+        points: Number(sstPoints.toFixed(2)),
+        maxPoints: 20,
+        value: (pfz.sst !== null && pfz.sst !== undefined && Number.isFinite(sst)) ? `${sst.toFixed(2)}°C` : null,
+        status: pfz.sstStatus || "UNAVAILABLE",
+        detail: (pfz.sst !== null && pfz.sst !== undefined && Number.isFinite(sst)) ? `Sea surface temperature ${sst.toFixed(2)}°C` : "SST data unavailable",
+      },
+      officialScore: {
+        points: Number(officialPoints.toFixed(2)),
+        maxPoints: 10,
+        value: (pfz.pfz_score !== null && pfz.pfz_score !== undefined && Number.isFinite(officialPFZScore)) ? officialPFZScore : null,
+        status: pfz.sourceStatus || "PROTOTYPE",
+        detail: (pfz.pfz_score !== null && pfz.pfz_score !== undefined && Number.isFinite(officialPFZScore)) ? `INCOIS score ${officialPFZScore}` : "Official INCOIS score unavailable",
+      },
+    };
+
+    // Selection explanation items
+    const selectionExplanation = [];
+    if (pfz.distanceKm !== null && pfz.distanceKm !== undefined && Number.isFinite(distance)) {
+      selectionExplanation.push(`✓ Close: ${distance.toFixed(2)} km`);
+    }
+    if (pfz.chlorophyll !== null && pfz.chlorophyll !== undefined && Number.isFinite(chlorophyll)) {
+      selectionExplanation.push(`✓ Chlorophyll: ${chlorophyll.toFixed(4)} mg/m³`);
+    }
+    if (pfz.sst !== null && pfz.sst !== undefined && Number.isFinite(sst)) {
+      selectionExplanation.push(`✓ SST: ${sst.toFixed(2)}°C`);
+    }
+    if (pfz.sourceStatus === "LIVE" || pfz.source === "INCOIS") {
+      selectionExplanation.push(`✓ Live INCOIS PFZ`);
+    } else {
+      selectionExplanation.push(`✓ Prototype PFZ Zone`);
+    }
+
+    const confidenceScore = Math.round(
+      (availableWeight / 100) * 75 + (pfz.sourceStatus === "LIVE" ? 25 : 15)
+    );
+
+    const missingDataDisclosure = unavailableFactors.length > 0
+      ? `Missing factors: ${unavailableFactors.join(", ")}. Remaining available factors (${availableFactors.join(", ")}) were re-weighted to 100.`
+      : "Full parameter coverage available for scoring.";
+
+    return {
+      ...pfz,
+
+      aiSuitabilityScore,
+
+      scoreDataCompleteness: dataCompleteness,
+
+      perFactorBreakdown,
+
+      selectionExplanation,
+
+      confidenceScore,
+
+      missingDataDisclosure,
+
+      scoringFactors: {
+        available: availableFactors,
+        unavailable: unavailableFactors,
+      },
+
+      rankingMethod:
+        "AI-derived suitability using live chlorophyll, SST, distance, and official PFZ score when available; missing factors are excluded and remaining factors are normalized",
+
+      rankingNote:
+        unavailableFactors.length > 0
+          ? `Score calculated using available factors only. Unavailable factors: ${unavailableFactors.join(", ")}`
+          : "All ranking factors were available",
+    };
+  });
+
+  /*
+   * Highest AI suitability first.
+   *
+   * If two PFZs have the same score, prefer the
+   * closer PFZ.
+   */
+  const sorted = rankedPFZs.sort((a, b) => {
+    const scoreA = Number(a.aiSuitabilityScore ?? -Infinity);
+    const scoreB = Number(b.aiSuitabilityScore ?? -Infinity);
+
+    if (scoreB !== scoreA) {
+      return scoreB - scoreA;
+    }
+
+    return (
+      Number(a.distanceKm ?? Infinity) - Number(b.distanceKm ?? Infinity)
+    );
+  });
+
+  // Attach rejection reasons to secondary candidates relative to the top candidate
+  const topCandidate = sorted[0];
+  const finalRanked = sorted.map((pfz, index) => {
+    if (index === 0 || !topCandidate) {
+      return {
+        ...pfz,
+        isSelected: true,
+        rejectionReason: null,
+      };
+    }
+
+    const reasons = [];
+    if (pfz.distanceKm && topCandidate.distanceKm && pfz.distanceKm > topCandidate.distanceKm) {
+      const diff = (pfz.distanceKm - topCandidate.distanceKm).toFixed(1);
+      reasons.push(`Farther distance (${pfz.distanceKm} km vs ${topCandidate.distanceKm} km, +${diff} km)`);
+    }
+    if (pfz.chlorophyll !== null && topCandidate.chlorophyll !== null && Number(pfz.chlorophyll) < Number(topCandidate.chlorophyll)) {
+      reasons.push(`Lower chlorophyll (${Number(pfz.chlorophyll).toFixed(2)} vs ${Number(topCandidate.chlorophyll).toFixed(2)} mg/m³)`);
+    }
+    if (pfz.aiSuitabilityScore !== null && topCandidate.aiSuitabilityScore !== null && pfz.aiSuitabilityScore < topCandidate.aiSuitabilityScore) {
+      reasons.push(`Lower overall suitability score (${pfz.aiSuitabilityScore} vs ${topCandidate.aiSuitabilityScore}/100)`);
+    }
+
+    return {
+      ...pfz,
+      isSelected: false,
+      rejectionReason: reasons.length > 0 ? reasons.join("; ") : "Lower overall suitability score",
+    };
+  });
+
+  return finalRanked.slice(0, Number(limit));
+}
+
+module.exports = {
+  getPFZs,
+  getPFZSourceStatus,
+  getLivePFZData,
+  getNearbyPFZs,
+  rankPFZs,
+  calculateDistanceKm,
+  PFZ_DATA,
+};

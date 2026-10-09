@@ -1,0 +1,1228 @@
+<Diagram title="Architecture Diagram Blueprint">
+  <Group
+    id="users"
+    x="15"
+    y="15"
+    width="307.349609375"
+    height="681.4875011444092"
+    bgColor="#e4f0fb"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    styleMode="plain"
+  >
+    <Title
+      width="full"
+      icon="users-round"
+      bgColor="#e4f0fb"
+      border="false"
+      color="#1b5fbf"
+      fontSize="large"
+      hAlign="left"
+      typeface="clean"
+    >
+      **Users &amp; External Services**
+    </Title>
+    <Textbox
+      id="users-sub"
+      x="107.6748046875"
+      y="46.48750114440918"
+      width="108.7626953125"
+      height="13.4375"
+      text="Who Uses the System"
+      color="#0d1b45"
+      fontSize="12"
+      hAlign="center"
+      typeface="clean"
+    />
+    <Shape
+      id="fisherman"
+      x="38.6748046875"
+      y="91.48750114440918"
+      width="260"
+      height="116"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="user-round" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">
+        Fisherman
+        (Mobile App)
+      </Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        • Queries  
+        
+        • View insights
+        • Location sharing
+      </Text>
+    </Shape>
+    <Shape
+      id="researcher"
+      x="38.6748046875"
+      y="225.48750114440918"
+      width="260"
+      height="126"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="laptop" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">
+        Researcher
+        (Web Portal)
+      </Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        • Data visualization
+        • Historical data
+        • Research tools
+      </Text>
+    </Shape>
+    <Shape
+      id="authority"
+      x="38.6748046875"
+      y="368.4875011444092"
+      width="260"
+      height="116"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="landmark" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">
+        Coastal Authority
+        (Web Portal)
+      </Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        • Monitor coastal conditions
+        • Manage alerts
+        • Policy support
+      </Text>
+    </Shape>
+    <Shape
+      id="thirdparty"
+      x="38.6748046875"
+      y="501.4875011444092"
+      width="260"
+      height="72"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="12"
+    >
+      <Icon icon="cloud" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Third-Party Services</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">IMD Weather • NASA/JPL SST • Government APIs</Text>
+    </Shape>
+  </Group>
+  <Group
+    id="frontend"
+    x="369.349609375"
+    y="15"
+    width="260"
+    height="681.4875011444092"
+    bgColor="#e9f8ef"
+    borderColor="#1f8a5a"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    styleMode="plain"
+  >
+    <Title
+      width="full"
+      icon="monitor"
+      bgColor="#e9f8ef"
+      border="false"
+      color="#1f8a5a"
+      fontSize="large"
+      hAlign="left"
+      typeface="clean"
+    >
+      Frontend Layer
+    </Title>
+    <Textbox
+      id="frontend-sub"
+      x="437.349609375"
+      y="60.48750114440918"
+      width="77.9375"
+      height="16.05000114440918"
+      text="Presentation"
+      color="#0d1b45"
+      fontSize="small"
+      hAlign="left"
+      typeface="clean"
+    />
+    <Shape
+      id="mobile"
+      x="389.349609375"
+      y="96.48750114440918"
+      width="220"
+      height="156"
+      shape="rectangle"
+      bgColor="#eefaf2"
+      borderColor="#1f8a5a"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="smartphone" />
+      <Text color="#1f8a5a" fontSize="16" hAlign="left" typeface="clean">
+        Mobile App
+        (React Native / Flutter)
+      </Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        • User authentication
+        • Location &amp; maps
+        • Personalized insights
+        • Real-time notifications
+      </Text>
+    </Shape>
+    <Shape
+      id="portal"
+      x="389.349609375"
+      y="265.4875011444092"
+      width="220"
+      height="162"
+      shape="rectangle"
+      bgColor="#eefaf2"
+      borderColor="#1f8a5a"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="monitor-up" />
+      <Text color="#1f8a5a" fontSize="16" hAlign="left" typeface="clean">
+        Web Portals
+        (React)
+      </Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        • Researcher dashboard
+        • Coastal authority dashboard
+        • Data visualization
+        • Interactive maps
+      </Text>
+    </Shape>
+  </Group>
+  <Relationship
+    id="r-users-front"
+    from="users"
+    fromPort="right"
+    to="frontend"
+    toPort="left"
+    x="324.349609375"
+    y="356.79416744922"
+    width="43"
+    height="0.25810243264004384"
+    points="[[0,0],[43,-0.25810243264004384]]"
+    label=""
+    startArrowhead="arrow"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Group
+    id="backend"
+    x="665.349609375"
+    y="15"
+    width="310"
+    height="681.4875011444092"
+    bgColor="#f1ebfc"
+    borderColor="#6b4fc2"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    styleMode="plain"
+  >
+    <Title
+      width="full"
+      icon="server"
+      bgColor="#f1ebfc"
+      border="false"
+      color="#6b4fc2"
+      fontSize="large"
+      hAlign="left"
+      typeface="clean"
+    >
+      Backend Layer
+    </Title>
+    <Textbox
+      id="backend-sub"
+      x="733.349609375"
+      y="60.48750114440918"
+      width="68.8251953125"
+      height="16.05000114440918"
+      text="Application"
+      color="#0d1b45"
+      fontSize="small"
+      hAlign="left"
+      typeface="clean"
+    />
+    <Shape
+      id="gateway"
+      x="685.349609375"
+      y="90.48750114440918"
+      width="270"
+      height="64"
+      shape="rectangle"
+      bgColor="#f4f0fd"
+      borderColor="#6b4fc2"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="code-2" />
+      <Text color="#6b4fc2" fontSize="16" hAlign="left" typeface="clean">API Gateway</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">• Request routing  • Authentication &amp; authorization</Text>
+    </Shape>
+    <Shape
+      id="intent"
+      x="685.349609375"
+      y="190.48750114440918"
+      width="270"
+      height="68"
+      shape="rectangle"
+      bgColor="#f4f0fd"
+      borderColor="#6b4fc2"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="message-circle" />
+      <Text color="#6b4fc2" fontSize="16" hAlign="left" typeface="clean">Intent Agent</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">
+        • Understands user queries
+        • Identifies intent &amp; required data
+      </Text>
+    </Shape>
+    <Shape
+      id="planner"
+      x="685.349609375"
+      y="294.4875011444092"
+      width="270"
+      height="68"
+      shape="rectangle"
+      bgColor="#f4f0fd"
+      borderColor="#6b4fc2"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="list-checks" />
+      <Text color="#6b4fc2" fontSize="16" hAlign="left" typeface="clean">Planner Agent</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">
+        • Selects tools &amp; data sources
+        • Builds execution plan
+      </Text>
+    </Shape>
+    <Shape
+      id="domain"
+      x="685.349609375"
+      y="398.4875011444092"
+      width="270"
+      height="68"
+      shape="rectangle"
+      bgColor="#f4f0fd"
+      borderColor="#6b4fc2"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="orbit" />
+      <Text color="#6b4fc2" fontSize="16" hAlign="left" typeface="clean">Domain Agents</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">
+        • Fetch &amp; process marine data
+        • Ranks suitable zones
+      </Text>
+    </Shape>
+    <Shape
+      id="orchestrator"
+      x="685.349609375"
+      y="502.4875011444092"
+      width="270"
+      height="74"
+      shape="rectangle"
+      bgColor="#f4f0fd"
+      borderColor="#6b4fc2"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="network" />
+      <Text color="#6b4fc2" fontSize="16" hAlign="left" typeface="clean">Orchestrator Agent</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">
+        • Coordinates all agents
+        • Manages workflow &amp; data flow
+      </Text>
+    </Shape>
+    <Shape
+      id="notify"
+      x="685.349609375"
+      y="612.4875011444092"
+      width="270"
+      height="64"
+      shape="rectangle"
+      bgColor="#f4f0fd"
+      borderColor="#6b4fc2"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="bell" />
+      <Text color="#6b4fc2" fontSize="16" hAlign="left" typeface="clean">Notification Service</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">• Push notifications</Text>
+    </Shape>
+  </Group>
+  <Relationship
+    id="r-gateway-intent"
+    from="gateway"
+    fromPort="bottom"
+    to="intent"
+    toPort="top"
+    x="820.349609375"
+    y="156.48750114440918"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#6b4fc2"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-intent-planner"
+    from="intent"
+    fromPort="bottom"
+    to="planner"
+    toPort="top"
+    x="820.349609375"
+    y="260.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#6b4fc2"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-planner-domain"
+    from="planner"
+    fromPort="bottom"
+    to="domain"
+    toPort="top"
+    x="820.349609375"
+    y="364.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#6b4fc2"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-domain-orch"
+    from="domain"
+    fromPort="bottom"
+    to="orchestrator"
+    toPort="top"
+    x="820.349609375"
+    y="468.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#6b4fc2"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-orch-notify"
+    from="orchestrator"
+    fromPort="bottom"
+    to="notify"
+    toPort="top"
+    x="820.349609375"
+    y="578.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#6b4fc2"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-front-back"
+    from="frontend"
+    fromPort="right"
+    to="backend"
+    toPort="left"
+    x="631.349609375"
+    y="355.7437505722"
+    width="32"
+    height="0"
+    points="[[0,0],[32,0]]"
+    label=""
+    startArrowhead="arrow"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1f8a5a"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Group
+    id="data"
+    x="1011.349609375"
+    y="15"
+    width="335"
+    height="681.4875011444092"
+    bgColor="#e6f7f8"
+    borderColor="#0f8f9e"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    styleMode="plain"
+  >
+    <Title
+      width="full"
+      icon="database"
+      bgColor="#e6f7f8"
+      border="false"
+      color="#0f8f9e"
+      fontSize="large"
+      hAlign="left"
+      typeface="clean"
+    >
+      Data &amp; Intelligence Layer
+    </Title>
+    <Textbox
+      id="data-sub"
+      x="1081.349609375"
+      y="60.48750114440918"
+      width="68.724609375"
+      height="16.05000114440918"
+      text="The “Brain”"
+      color="#0d1b45"
+      fontSize="small"
+      hAlign="left"
+      typeface="clean"
+    />
+    <Shape
+      id="sources"
+      x="1031.349609375"
+      y="90.48750114440918"
+      width="295"
+      height="194"
+      shape="rectangle"
+      bgColor="#eafaf9"
+      borderColor="#0f8f9e"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="waves" />
+      <Text color="#0f8f9e" fontSize="16" hAlign="left" typeface="clean">Marine Data Sources</Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        INCOIS (PFZ + Chlorophyll)     NASA/JPL (SST)
+        Open-Meteo (Weather)           IMD (Warnings &amp; Alerts)
+        GIS (Geofencing)
+      </Text>
+    </Shape>
+    <Shape
+      id="processing"
+      x="1031.349609375"
+      y="297.4875011444092"
+      width="295"
+      height="102"
+      shape="rectangle"
+      bgColor="#eafaf9"
+      borderColor="#0f8f9e"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="14"
+    >
+      <Icon icon="settings" />
+      <Text color="#0f8f9e" fontSize="16" hAlign="left" typeface="clean">Data Processing &amp; Analytics</Text>
+      <Text color="#0d1b45" fontSize="12" hAlign="left" typeface="clean">
+        • Data cleaning &amp; fusion  • Standardization
+        • Forecasting  • Enrichment
+      </Text>
+    </Shape>
+    <Shape
+      id="intelligence"
+      x="1031.349609375"
+      y="412.4875011444092"
+      width="295"
+      height="87"
+      shape="rectangle"
+      bgColor="#eafaf9"
+      borderColor="#0f8f9e"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="12"
+    >
+      <Icon icon="brain" />
+      <Text color="#0f8f9e" fontSize="16" hAlign="left" typeface="clean">Intelligence &amp; Decision Engine</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">
+        • PFZ ranking  • Risk analysis
+        • Route optimization (AI algorithm)
+      </Text>
+    </Shape>
+    <Shape
+      id="database"
+      x="1031.349609375"
+      y="512.4875011444092"
+      width="295"
+      height="61.07500076293945"
+      shape="rectangle"
+      bgColor="#eafaf9"
+      borderColor="#0f8f9e"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="database" />
+      <Text color="#0f8f9e" fontSize="16" hAlign="left" typeface="clean">Application Database</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">• Stores processed data  • User data &amp; history</Text>
+    </Shape>
+  </Group>
+  <Relationship
+    id="r-back-data"
+    from="backend"
+    fromPort="right"
+    to="data"
+    toPort="left"
+    x="977.349609375"
+    y="355.7437505722"
+    width="32"
+    height="0"
+    points="[[0,0],[32,0]]"
+    label=""
+    startArrowhead="arrow"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#6b4fc2"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Group
+    id="flow"
+    x="1382.349609375"
+    y="15"
+    width="285"
+    height="756.4875011444092"
+    bgColor="#e4f0fb"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    styleMode="plain"
+  >
+    <Title
+      width="full"
+      icon="git-branch"
+      bgColor="#e4f0fb"
+      border="false"
+      color="#1b5fbf"
+      fontSize="large"
+      hAlign="left"
+      typeface="clean"
+    >
+      Data Flow
+    </Title>
+    <Textbox
+      id="flow-sub"
+      x="1449.349609375"
+      y="60.48750114440918"
+      width="131.6376953125"
+      height="16.05000114440918"
+      text="From Query to Action"
+      color="#0d1b45"
+      fontSize="small"
+      hAlign="left"
+      typeface="clean"
+    />
+    <Shape
+      id="query"
+      x="1402.349609375"
+      y="80.48750114440918"
+      width="245"
+      height="62"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="user" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">User Query</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Fisherman enters query in natural language</Text>
+    </Shape>
+    <Shape
+      id="flow-intent"
+      x="1402.349609375"
+      y="178.48750114440918"
+      width="245"
+      height="62"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="message-circle" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Intent Agent</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Understands intent and extracts key information</Text>
+    </Shape>
+    <Shape
+      id="flow-planner"
+      x="1402.349609375"
+      y="276.4875011444092"
+      width="245"
+      height="62"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="list-checks" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Planner Agent</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Selects required tools and data sources</Text>
+    </Shape>
+    <Shape
+      id="collection"
+      x="1402.349609375"
+      y="374.4875011444092"
+      width="245"
+      height="69"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="database" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Data Collection</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">
+        Fetches data from INCOIS, NASA,
+        Open-Meteo, IMD and GIS
+      </Text>
+    </Shape>
+    <Shape
+      id="analysis"
+      x="1402.349609375"
+      y="479.4875011444092"
+      width="245"
+      height="62"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="brain" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Analysis &amp; Intelligence</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Processes data, generates insights and predicts conditions</Text>
+    </Shape>
+    <Shape
+      id="decision"
+      x="1402.349609375"
+      y="577.4875011444092"
+      width="245"
+      height="62"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="map-pin" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Decision &amp; Route</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Checks safety, applies rules, optimizes route</Text>
+    </Shape>
+    <Shape
+      id="response"
+      x="1402.349609375"
+      y="675.4875011444092"
+      width="245"
+      height="76"
+      shape="rectangle"
+      bgColor="#eaf3fd"
+      borderColor="#1b5fbf"
+      borderStyle="solid"
+      borderWidth="1"
+      cornerRadius="round"
+      fontSize="small"
+      styleMode="plain"
+      typeface="clean"
+      vAlign="top"
+      vMargin="10"
+    >
+      <Icon icon="smartphone" />
+      <Text color="#1b5fbf" fontSize="16" hAlign="left" typeface="clean">Response</Text>
+      <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Sends recommendation, alerts and map to user apps and web portals</Text>
+    </Shape>
+  </Group>
+  <Relationship
+    id="r-query-intent"
+    from="query"
+    fromPort="bottom"
+    to="flow-intent"
+    toPort="top"
+    x="1524.849609375"
+    y="144.48750114440918"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-fi-fp"
+    from="flow-intent"
+    fromPort="bottom"
+    to="flow-planner"
+    toPort="top"
+    x="1524.849609375"
+    y="242.48750114440918"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-fp-collect"
+    from="flow-planner"
+    fromPort="bottom"
+    to="collection"
+    toPort="top"
+    x="1524.849609375"
+    y="340.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-collect-analysis"
+    from="collection"
+    fromPort="bottom"
+    to="analysis"
+    toPort="top"
+    x="1524.849609375"
+    y="445.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-analysis-decision"
+    from="analysis"
+    fromPort="bottom"
+    to="decision"
+    toPort="top"
+    x="1524.849609375"
+    y="543.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-decision-response"
+    from="decision"
+    fromPort="bottom"
+    to="response"
+    toPort="top"
+    x="1524.849609375"
+    y="641.4875011444092"
+    width="0"
+    height="32"
+    points="[[0,0],[0,32]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Relationship
+    id="r-data-flow"
+    from="data"
+    fromPort="right"
+    to="flow"
+    toPort="left"
+    x="1348.349609375"
+    y="374.11441531208"
+    width="32"
+    height="3.468208092489988"
+    points="[[0,0],[32,3.468208092489988]]"
+    label=""
+    startArrowhead="arrow"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#0f8f9e"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Shape
+    id="out-tab"
+    x="36"
+    y="696.4875011444092"
+    width="172"
+    height="67"
+    shape="parallelogram"
+    bgColor="#ffffff"
+    borderColor="#0d1b45"
+    borderStyle="solid"
+    borderWidth="1"
+    color="white"
+    cornerRadius="sharp"
+    fontSize="small"
+    styleMode="plain"
+    typeface="clean"
+    vAlign="middle"
+  >
+    <Icon icon="file-text" />
+    <Text color="white" fontSize="18" hAlign="center" typeface="clean">Outputs</Text>
+  </Shape>
+  <Shape
+    id="out-pfz"
+    x="246"
+    y="715.4875011444092"
+    width="210"
+    height="59"
+    shape="rectangle"
+    bgColor="#eaf3fd"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    fontSize="small"
+    styleMode="plain"
+    typeface="clean"
+    vAlign="top"
+    vMargin="10"
+  >
+    <Icon icon="fish" />
+    <Text color="#1b5fbf" fontSize="13" hAlign="left" typeface="clean">PFZ Recommendation</Text>
+    <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Best fishing zones</Text>
+  </Shape>
+  <Relationship
+    id="r-output"
+    from="out-tab"
+    fromPort="right"
+    to="out-pfz"
+    toPort="left"
+    x="192.9344017336348"
+    y="734.6338593365687"
+    width="51.06559826636527"
+    height="3.344908183390544"
+    points="[[0,0],[51.06559826636527,3.344908183390544]]"
+    label=""
+    startArrowhead="dot"
+    endArrowhead="arrow"
+    lineStyle="solid"
+    color="#1b5fbf"
+    connectorStyle="straight"
+    lineWidth="1.5"
+    textSize="small"
+    typeface="clean"
+  />
+  <Shape
+    id="out-safety"
+    x="468"
+    y="715.4875011444092"
+    width="182"
+    height="59"
+    shape="rectangle"
+    bgColor="#eaf3fd"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    fontSize="small"
+    styleMode="plain"
+    typeface="clean"
+    vAlign="top"
+    vMargin="10"
+  >
+    <Icon icon="shield-check" />
+    <Text color="#1b5fbf" fontSize="13" hAlign="left" typeface="clean">Safety Status</Text>
+    <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Safe / Unsafe</Text>
+  </Shape>
+  <Shape
+    id="out-risk"
+    x="663"
+    y="715.4875011444092"
+    width="202"
+    height="59"
+    shape="rectangle"
+    bgColor="#eaf3fd"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    fontSize="small"
+    styleMode="plain"
+    typeface="clean"
+    vAlign="top"
+    vMargin="10"
+  >
+    <Icon icon="triangle-alert" />
+    <Text color="#1b5fbf" fontSize="13" hAlign="left" typeface="clean">Risk Level</Text>
+    <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Low / Moderate / High</Text>
+  </Shape>
+  <Shape
+    id="out-alerts"
+    x="878"
+    y="715.4875011444092"
+    width="206.6385157108307"
+    height="59"
+    shape="rectangle"
+    bgColor="#eaf3fd"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    fontSize="small"
+    styleMode="plain"
+    typeface="clean"
+    vAlign="top"
+    vMargin="10"
+  >
+    <Icon icon="bell" />
+    <Text color="#1b5fbf" fontSize="13" hAlign="left" typeface="clean">Alerts</Text>
+    <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">Weather / Cyclone / Warnings</Text>
+  </Shape>
+  <Shape
+    id="out-route"
+    x="1098"
+    y="715.4875011444092"
+    width="248.349609375"
+    height="59"
+    shape="rectangle"
+    bgColor="#eaf3fd"
+    borderColor="#1b5fbf"
+    borderStyle="solid"
+    borderWidth="1"
+    cornerRadius="round"
+    fontSize="small"
+    styleMode="plain"
+    typeface="clean"
+    vAlign="top"
+    vMargin="10"
+  >
+    <Icon icon="route" />
+    <Text color="#1b5fbf" fontSize="13" hAlign="left" typeface="clean">Recommended Route</Text>
+    <Text color="#0d1b45" fontSize="11" hAlign="left" typeface="clean">When safe</Text>
+  </Shape>
+</Diagram>

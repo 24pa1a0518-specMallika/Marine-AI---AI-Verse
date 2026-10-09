@@ -1,0 +1,435 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ADMIRALTY CHART GLOBAL PALETTE */
+  --chart-bg: #0B1E2D;           /* Deep chart-ink navy (background) */
+  --chart-surface: #132C40;      /* Panel/surface, one step up */
+  --chart-accent: #C9A961;       /* Brass/parchment accent (dominant CTA & active nav) */
+  --chart-accent-hover: #B89750;
+  --chart-safe: #3E7C6B;         /* Chart-sounding teal (safe/proceed only) */
+  --chart-danger: #B8543C;       /* Rust/warning-buoy red (danger/DO_NOT_SAIL only) */
+  --chart-text: #D8D2C2;         /* Soundings-paper off-white (primary text) */
+  --chart-text-muted: #8EA5B5;   /* Muted sounding depths text */
+  --chart-border: #1E3F5A;       /* Chart coordinate grid border */
+
+  /* MAPPED MARINE AI TOKENS */
+  --color-primary: #C9A961;
+  --color-primary-hover: #B89750;
+  --color-cyan: #C9A961;
+  --color-navy: #0B1E2D;
+  --color-surface: #132C40;
+  --color-background: #0B1E2D;
+  --color-border: #1E3F5A;
+  
+  --color-text-main: #D8D2C2;
+  --color-text-secondary: #A5B6C4;
+  --color-text-muted: #8EA5B5;
+  
+  /* SEMANTIC STATUS TOKENS */
+  --color-success: #3E7C6B;
+  --color-warning: #C9A961;
+  --color-danger: #B8543C;
+  --color-info: #C9A961;
+
+  /* TYPOGRAPHY */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--chart-bg);
+    color: var(--chart-text);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    color: var(--chart-text);
+  }
+}
+
+@layer components {
+  /* REUSABLE CARD CONTAINER */
+  .marine-card {
+    background-color: #132C40;
+    border: 1px solid #1E3F5A;
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    padding: 1.25rem;
+    color: #D8D2C2;
+  }
+
+  /* BUTTON VARIANTS */
+  .btn-primary {
+    background-color: #C9A961;
+    color: #0B1E2D;
+    font-weight: 700;
+    font-size: 0.75rem; /* 12px */
+    padding: 0.625rem 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .btn-primary:hover {
+    background-color: #B89750;
+  }
+
+  .btn-secondary {
+    background-color: #132C40;
+    border: 1px solid #1E3F5A;
+    color: #D8D2C2;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.625rem 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .btn-secondary:hover {
+    background-color: #183852;
+    color: #FFFFFF;
+  }
+
+  /* BADGE VARIANTS */
+  .badge-success {
+    background-color: rgba(62, 124, 107, 0.22);
+    color: #4EA892;
+    border: 1px solid rgba(62, 124, 107, 0.5);
+    font-weight: 700;
+    font-size: 0.6875rem; /* 11px */
+    padding: 0.125rem 0.625rem;
+    border-radius: 0.375rem;
+  }
+
+  .badge-warning {
+    background-color: rgba(201, 169, 97, 0.20);
+    color: #E0C788;
+    border: 1px solid rgba(201, 169, 97, 0.5);
+    font-weight: 700;
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: 0.375rem;
+  }
+
+  .badge-danger {
+    background-color: rgba(184, 84, 60, 0.22);
+    color: #DE7960;
+    border: 1px solid rgba(184, 84, 60, 0.5);
+    font-weight: 700;
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: 0.375rem;
+  }
+
+  .glass-map-overlay {
+    background: #132C40;
+    border: 1px solid #1E3F5A;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    color: #D8D2C2;
+  }
+
+  .badge-info {
+    background-color: rgba(201, 169, 97, 0.20);
+    color: #C9A961;
+    border: 1px solid rgba(201, 169, 97, 0.4);
+    font-weight: 700;
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: 0.375rem;
+  }
+}
+
+@layer utilities {
+  .label-caps {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #8EA5B5;
+  }
+  
+  .data-mono {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: #D8D2C2;
+  }
+}
+
+/* Custom scrollbars for telemetry cards & chat */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B1E2D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E3F5A;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C9A961;
+}
+
+/* =========================================================
+   ADMIRALTY CHART GLOBAL PALETTE THEME ENFORCEMENT
+   #0B1E2D — deep chart-ink navy (background)
+   #132C40 — panel/surface, one step up
+   #C9A961 — brass/parchment accent (dominant CTA & nav)
+   #3E7C6B — chart-sounding teal (safe/proceed status only)
+   #B8543C — rust/warning-buoy red (danger/DO_NOT_SAIL only)
+   #D8D2C2 — soundings-paper off-white (primary text)
+   ========================================================= */
+
+/* Surface / Card panels across all views */
+.bg-white,
+.bg-slate-50,
+.bg-slate-100 {
+  background-color: #132C40 !important;
+  color: #D8D2C2 !important;
+}
+
+/* Sub-panels and nested containers */
+.bg-slate-200 {
+  background-color: #183852 !important;
+  color: #D8D2C2 !important;
+}
+
+/* Borders across all cards & panels */
+.border-\[\#E2E8F0\],
+.border-slate-200,
+.border-slate-100 {
+  border-color: #1E3F5A !important;
+}
+
+/* Primary text across headings, titles & values */
+.text-\[\#0F172A\],
+.text-slate-900,
+.text-slate-800,
+.text-slate-700 {
+  color: #D8D2C2 !important;
+}
+
+/* Secondary & muted soundings labels */
+.text-slate-600,
+.text-slate-500,
+.text-slate-400 {
+  color: #8EA5B5 !important;
+}
+
+/* Generic Blue CTAs replaced with Brass / Parchment Accent (#C9A961) */
+.bg-\[\#1363DF\],
+.bg-\[\#00B4D8\] {
+  background-color: #C9A961 !important;
+  color: #0B1E2D !important;
+}
+
+.hover\:bg-\[\#0096B4\]:hover,
+.hover\:bg-\[\#0D4EB3\]:hover {
+  background-color: #B89750 !important;
+  color: #0B1E2D !important;
+}
+
+.text-\[\#1363DF\],
+.text-\[\#00B4D8\],
+.text-cyan-400,
+.text-cyan-300,
+.text-cyan-500 {
+  color: #C9A961 !important;
+}
+
+.border-\[\#1363DF\],
+.border-\[\#00B4D8\] {
+  border-color: #C9A961 !important;
+}
+
+/* Safe / Proceed status: Chart-sounding teal (#3E7C6B) only */
+.text-emerald-500,
+.text-emerald-600,
+.text-emerald-700,
+.text-green-500,
+.text-green-600,
+.text-emerald-400 {
+  color: #3E7C6B !important;
+}
+
+.bg-emerald-500,
+.bg-green-500 {
+  background-color: #3E7C6B !important;
+  color: #FFFFFF !important;
+}
+
+.bg-emerald-50,
+.bg-green-50,
+.bg-emerald-500\/15,
+.bg-emerald-500\/20 {
+  background-color: rgba(62, 124, 107, 0.22) !important;
+  color: #D8D2C2 !important;
+}
+
+.border-emerald-500,
+.border-emerald-200,
+.border-emerald-500\/30,
+.border-emerald-500\/40 {
+  border-color: rgba(62, 124, 107, 0.45) !important;
+}
+
+/* Danger / DO_NOT_SAIL status: Rust / warning-buoy red (#B8543C) only */
+.text-rose-500,
+.text-rose-600,
+.text-red-500,
+.text-red-600,
+.text-rose-400 {
+  color: #B8543C !important;
+}
+
+.bg-rose-500,
+.bg-red-500,
+.bg-\[\#EF4444\] {
+  background-color: #B8543C !important;
+  color: #D8D2C2 !important;
+}
+
+.bg-rose-50,
+.bg-red-50,
+.bg-rose-500\/15,
+.bg-rose-500\/20 {
+  background-color: rgba(184, 84, 60, 0.22) !important;
+  color: #D8D2C2 !important;
+}
+
+.border-rose-500,
+.border-rose-200,
+.border-red-200,
+.border-rose-500\/30,
+.border-rose-500\/40 {
+  border-color: rgba(184, 84, 60, 0.45) !important;
+}
+
+/* Form inputs & dropdowns */
+input, select, textarea {
+  background-color: #0B1E2D !important;
+  border-color: #1E3F5A !important;
+  color: #D8D2C2 !important;
+}
+
+/* LEAFLET TOOLTIP STYLING (MARITIME ADMIRALTY INTELLIGENCE) */
+.leaflet-tooltip {
+  background: rgba(11, 30, 45, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  color: #D8D2C2 !important;
+  border: 1px solid #1E3F5A !important;
+  border-radius: 0.625rem !important;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.6) !important;
+  padding: 0.625rem 0.875rem !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.75rem !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+  width: max-content !important;
+  min-width: 180px !important;
+  max-width: 320px !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  pointer-events: none;
+}
+
+.map-station-tooltip,
+.leaflet-tooltip.map-station-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  min-width: unset !important;
+  max-width: unset !important;
+}
+
+.map-station-tooltip:before,
+.leaflet-tooltip.map-station-tooltip:before {
+  display: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(19, 44, 64, 0.98) !important;
+  border: 1px solid #1E3F5A !important;
+  border-radius: 0.75rem !important;
+  color: #D8D2C2 !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px !important;
+  line-height: 1.4 !important;
+  min-width: 180px !important;
+  max-width: min(320px, calc(100vw - 48px)) !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  color: #D8D2C2 !important;
+}
+
+.leaflet-container {
+  overflow: hidden !important;
+  background-color: #0B1E2D !important;
+}
+
+.leaflet-tooltip-top:before {
+  border-top-color: rgba(11, 30, 45, 0.95) !important;
+}
+.leaflet-tooltip-bottom:before {
+  border-bottom-color: rgba(11, 30, 45, 0.95) !important;
+}
+.leaflet-tooltip-left:before {
+  border-left-color: rgba(11, 30, 45, 0.95) !important;
+}
+.leaflet-tooltip-right:before {
+  border-right-color: rgba(11, 30, 45, 0.95) !important;
+}
+
+.risk-tooltip-high {
+  border-color: #B8543C !important;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.7), 0 0 16px rgba(184, 84, 60, 0.35) !important;
+  width: max-content !important;
+  min-width: 240px !important;
+  max-width: 320px !important;
+}
+
+.risk-tooltip-mod {
+  border-color: #C9A961 !important;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.7), 0 0 16px rgba(201, 169, 97, 0.35) !important;
+  width: max-content !important;
+  min-width: 240px !important;
+  max-width: 320px !important;
+}
+
+.risk-tooltip-low {
+  border-color: #3E7C6B !important;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.7), 0 0 16px rgba(62, 124, 107, 0.35) !important;
+  width: max-content !important;
+  min-width: 220px !important;
+  max-width: 320px !important;
+}

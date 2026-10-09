@@ -1,0 +1,51 @@
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Build & Dist outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Environment variables & Secrets
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Python Cache & Virtual Envs
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS System files
+.DS_Store
+Thumbs.db
+
+# Temporary & Test Coverage
+.cache/
+.eslintcache
+coverage/
+**/coverage/

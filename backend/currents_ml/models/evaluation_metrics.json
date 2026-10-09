@@ -1,0 +1,37 @@
+{
+  "modelName": "Random Forest Ocean Current Regressor",
+  "modelVersion": "v1.2.0",
+  "dataset": "NASA PO.DAAC OSCAR Surface Currents Historical Final V2.0",
+  "datasetVersion": "V2.0",
+  "testPeriod": {
+    "start": "2026-09-21",
+    "end": "2026-09-29"
+  },
+  "evaluatedRecords": 6525,
+  "evaluationTimestamp": "2026-10-09T14:20:05.564Z",
+  "randomForestMetrics": {
+    "mae_u": 0.0019,
+    "mae_v": 0.0015,
+    "rmse_u": 0.0028,
+    "rmse_v": 0.002,
+    "mae_speed": 0.0017,
+    "rmse_speed": 0.0024
+  },
+  "persistenceMetrics": {
+    "mae_u": 0.0317,
+    "mae_v": 0.0297,
+    "rmse_u": 0.0468,
+    "rmse_v": 0.0406,
+    "mae_speed": 0.0307,
+    "rmse_speed": 0.0437
+  },
+  "performanceGain": {
+    "mae_u_diff": 0.0298,
+    "mae_v_diff": 0.0282,
+    "rmse_u_diff": 0.044,
+    "rmse_v_diff": 0.0386,
+    "improvement_pct_u": 94.01,
+    "improvement_pct_v": 94.95
+  },
+  "status": "EVALUATED_READY"
+}
