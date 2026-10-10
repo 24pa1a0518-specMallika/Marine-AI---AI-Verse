@@ -15,6 +15,10 @@ WORKDIR /app
 # Copy the entire backend workspace (including currents_ml, risk-engine, backend)
 COPY . .
 
+# Install AI subsystem dependencies
+WORKDIR /app/ai
+RUN npm install
+
 # Set working directory to the actual Node backend where the server runs
 WORKDIR /app/backend
 
