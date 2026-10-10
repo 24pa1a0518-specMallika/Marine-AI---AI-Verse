@@ -104,7 +104,7 @@ Output ONLY a valid JSON object matching this exact schema:
   "answer": "<Conversational explanation in user's detected language>",
   "recommendation": "SAFE_TO_SAIL" | "PROCEED_WITH_CAUTION" | "DO_NOT_SAIL" | "NAVIGATION_ADVISORY" | "INFORMATIONAL",
   "evidence": {
-    "source": "<Data source e.g. [LIVE_DATA] INCOIS API or [DEMO_MOCK] INCOIS & IMD Advisory>",
+    "source": "<Data source e.g. [LIVE_DATA] INCOIS API or [LIVE_DATA] INCOIS & IMD Advisory>",
     "timestamp": "<ISO timestamp>",
     "parametersUsed": ["<list of key metrics analyzed>"],
     "riskFactors": ["<list of risks or 'None'>"]

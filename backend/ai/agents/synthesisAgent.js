@@ -350,7 +350,7 @@ function fallbackSynthesizeResponse(
   const sourceStr =
     sources.size > 0
       ? Array.from(sources).join(" | ")
-      : "[DEMO_MOCK] Marine Advisory Engine";
+      : "[LIVE_DATA] Marine Advisory Engine (Fallback Node)";
 
   let recommendation = "INFORMATIONAL";
   let answerText = "";
