@@ -162,7 +162,7 @@ export async function synthesizeResponse(
       const model = genAI.getGenerativeModel({
         model:
           process.env.MODEL_NAME ||
-          "gemini-2.5-flash",
+          "gemini-3.8-flash",
 
         generationConfig: {
           responseMimeType: "application/json",

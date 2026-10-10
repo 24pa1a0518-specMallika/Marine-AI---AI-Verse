@@ -36,7 +36,15 @@ function loadCsvRecords() {
 // GET /api/currents/overview
 exports.getCurrentsOverview = async (req, res, next) => {
   try {
-    const records = loadCsvRecords();
+    let records = loadCsvRecords();
+    
+    const { lat, lon } = req.query;
+    if (lat && lon) {
+      const targetLat = parseFloat(lat);
+      const targetLon = parseFloat(lon);
+      records = records.filter(r => Math.abs(r.latitude - targetLat) < 0.8 && Math.abs(r.longitude - targetLon) < 0.8);
+    }
+
     let metrics = null;
     if (fs.existsSync(metricsPath)) {
       try {

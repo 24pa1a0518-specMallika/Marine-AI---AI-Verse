@@ -25,7 +25,7 @@ export default function CurrentsOverviewPage() {
     setLoading(true);
     try {
       const [overviewRes, gridRes, trendRes] = await Promise.all([
-        getCurrentsOverview(),
+        getCurrentsOverview({ lat: activeLoc.lat, lon: activeLoc.lon }),
         getCurrentsGrid({ limit: 120, lat: activeLoc.lat, lon: activeLoc.lon }),
         getCurrentsComparison({ lat: activeLoc.lat, lon: activeLoc.lon, days: 14 })
       ]);

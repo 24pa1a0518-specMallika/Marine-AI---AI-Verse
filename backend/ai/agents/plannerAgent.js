@@ -29,7 +29,7 @@ export async function createPlan(intentResult, userQuery = "") {
       const genAI = new GoogleGenerativeAI(apiKey);
 
       const model = genAI.getGenerativeModel({
-        model: process.env.MODEL_NAME || "gemini-2.5-flash",
+        model: process.env.MODEL_NAME || "gemini-3.8-flash",
         generationConfig: {
           responseMimeType: "application/json",
         },

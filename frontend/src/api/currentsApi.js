@@ -1,8 +1,8 @@
 import { apiClient, withFallback } from './client';
 
-export async function getCurrentsOverview() {
+export async function getCurrentsOverview(params = {}) {
   return withFallback(
-    () => apiClient('/currents/overview'),
+    () => apiClient('/currents/overview', { params }),
     {
       status: 'ACTIVE',
       region: 'Bay of Bengal & East Coast Domain',
